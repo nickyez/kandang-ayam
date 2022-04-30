@@ -16,3 +16,19 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('pages.dashboard.index');
 });
+
+Route::get('/login', function () {
+    return view('pages.login');
+});
+
+Route::get('/users', function () {
+    return view('pages.users.index');
+});
+
+Route::get('/devices', function () {
+    return view('pages.devices.index');
+});
+
+Route::get('/kontrol-lampu', function () {
+    return view('pages.controls.lampu');
+});
