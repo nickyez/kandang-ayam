@@ -9,7 +9,15 @@
 @section('content')
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data devices</h6>
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Data Devices</h6>
+                <a href="{{Request::url()."/create"}}" class="btn btn-primary btn-icon-split btn-sm">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-arrow-left"></i>
+                    </span>
+                    <span class="text">Tambah Devices</span>
+                </a>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
