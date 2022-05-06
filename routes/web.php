@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,22 +16,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.dashboard.index');
-});
+Route::get('/login',[AuthController::class, 'index'])->name('login');
+Route::post('/post-login', [AuthController::class, 'login']);
+Route::get('/logout', [AuthController::class, 'logout']);
 
-Route::get('/login', function () {
-    return view('pages.login');
-});
+Route::group(['middleware'=>['auth']], function(){
+    Route::get('/',function(){
+        return view('pages.dashboard.index');
+    })->name('dashboard');
+    Route::resource('users', UserController::class);
+    Route::resource('devices', DeviceController::class);
 
-Route::get('/users', function () {
-    return view('pages.users.index');
-});
-
-Route::get('/devices', function () {
-    return view('pages.devices.index');
-});
-
-Route::get('/kontrol-lampu', function () {
-    return view('pages.controls.lampu');
+    Route::get('/kontrol-lampu', function () {
+        return view('pages.controls.lampu');
+    });
 });
