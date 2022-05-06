@@ -18,6 +18,8 @@ class CreateTempDataTable extends Migration
             $table->integer('temp');
             $table->integer('humi');
             $table->time('waktu');
+
+            $table->foreign('id')->references('id')->on('devices');
         });
     }
 
@@ -27,7 +29,10 @@ class CreateTempDataTable extends Migration
      * @return void
      */
     public function down()
-    {
+    {   
+        Schema::table('temp_data', function(Blueprint $table){
+            $table->dropForeign('temp_data_id_foreign');
+        });
         Schema::dropIfExists('temp_data');
     }
 }

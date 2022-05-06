@@ -15,7 +15,7 @@ class CreateDevicesTable extends Migration
     {
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
-            $table->integer('users_id');
+            $table->foreignId('user_id')->nullable()->constrained('users');
             $table->timestamps();
         });
     }
@@ -27,6 +27,9 @@ class CreateDevicesTable extends Migration
      */
     public function down()
     {
+        Schema::table('devices', function(Blueprint $table){
+            $table->dropForeign('devices_user_id_foreign');
+        });
         Schema::dropIfExists('devices');
     }
 }

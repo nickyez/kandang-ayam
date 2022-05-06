@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('level');
+            $table->string('photos_url');
             $table->timestamps();
         });
     }
