@@ -34,7 +34,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new User;
+        $user->photos_url = $request->photo;
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
     }
 
     /**
@@ -68,7 +73,15 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        $user->photos_url = $request->photo ? $request->photo : $user->photos_url;
+        $user->name = $request->name ? $request->name : $user->name;
+        $user->username = $request->username ? $request->username : $user->username;
+        $user->email = $request->email ? $request->email : $user->email;
+        $user->password = Hash::make($request->password);
+
+        $user->save();
+        return redirect('users')->with('status', 'user berhasil di edit!');
     }
 
     /**
@@ -79,6 +92,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $filename = $user->photos_url;
+        File::delete($filename);
+        $user->delete();
+        return redirect('/users')->with('status','User berhasil di hapus!');
     }
 }
