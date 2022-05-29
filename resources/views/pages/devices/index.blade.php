@@ -26,18 +26,30 @@
                         <tr>
                             <th>ID device</th>
                             <th>Nama Pemilik</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>ID Device</th>
                             <th>Nama Pemilik</th>
+                            <th>Action</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         <tr>
                             <td>A0001</td>
                             <td>Nicky Erlangga</td>
+                            <td>
+                                <a href="{{Request::url().'/edit'}}" class="btn btn-sm btn-success">
+                                    <i class="fa fa-edit"></i>
+                                    <span class="text">Edit</span>
+                                </a>
+                                <a href="#" class="btn btn-sm btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                    <span class="text">Delete</span>
+                                </a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
