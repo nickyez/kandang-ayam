@@ -14,10 +14,10 @@ class CreateTempDataTable extends Migration
     public function up()
     {
         Schema::create('temp_data', function (Blueprint $table) {
-            $table->id();
+            $table->string('id',8)->primary();
             $table->integer('temp');
             $table->integer('humi');
-            $table->time('waktu');
+            $table->timestamp('waktu')->useCurrent();
 
             $table->foreign('id')->references('id')->on('devices');
         });
