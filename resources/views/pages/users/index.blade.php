@@ -27,7 +27,7 @@
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Foto</th>
-                            <th>action</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tfoot>
