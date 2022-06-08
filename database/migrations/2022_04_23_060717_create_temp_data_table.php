@@ -14,7 +14,7 @@ class CreateTempDataTable extends Migration
     public function up()
     {
         Schema::create('temp_data', function (Blueprint $table) {
-            $table->string('id',8)->primary();
+            $table->string('id',8);
             $table->integer('temp');
             $table->integer('humi');
             $table->timestamp('waktu')->useCurrent();

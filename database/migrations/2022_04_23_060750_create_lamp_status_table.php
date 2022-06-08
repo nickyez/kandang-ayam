@@ -14,11 +14,11 @@ class CreateLampStatusTable extends Migration
     public function up()
     {
         Schema::create('lamp_status', function (Blueprint $table) {
-            $table->string('id',8)->primary();
+            $table->string('id',8);
             $table->boolean('status');
             $table->boolean('mode');
-            $table->integer('suhu_nyala');
-            $table->integer('suhu_mati');
+            $table->integer('suhu_nyala')->nullable();
+            $table->integer('suhu_mati')->nullable();
             $table->timestamp('time_on')->nullable();
             $table->timestamp('time_off')->nullable();
             $table->foreign('id')->references('id')->on('devices');
