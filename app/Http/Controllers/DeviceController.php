@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Device;
+use App\Models\User;
 
 class DeviceController extends Controller
 {
@@ -13,7 +15,8 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        return view('pages.devices.index');
+        $devices = Device::all();
+        return view('pages.devices.index',compact('devices'));
     }
 
     /**
@@ -23,7 +26,8 @@ class DeviceController extends Controller
      */
     public function create()
     {
-        return view('pages.devices.create');
+        $users = User::where('is_admin',0)->get();
+        return view('pages.devices.create',compact('users'));
     }
 
     /**
@@ -34,7 +38,16 @@ class DeviceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'device_id'=>'max:8'
+        ]);
+        $device = new Device;
+        $device->id = $request->device_id;
+        if(!empty($request->user)){
+            $device->user_id = $request->user;
+        }
+        $device->save();
+        return redirect('/devices')->with('status','Data berhasil ditambahkan');
     }
 
     /**
@@ -45,7 +58,7 @@ class DeviceController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -56,7 +69,9 @@ class DeviceController extends Controller
      */
     public function edit($id)
     {
-        return view('pages.devices.edit');
+        $device = Device::find($id);
+        $users = User::where('is_admin',0)->get();
+        return view('pages.devices.edit',compact('device','users'));
     }
 
     /**
@@ -68,7 +83,18 @@ class DeviceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'device_id'=>'max:8'
+        ]);
+        $device = Device::find($id);
+        $device->id = $request->device_id ? $request->device_id : $device->id;
+        if(!empty($request->user)){
+            $device->user_id = $request->user ? $request->user : $device->user;
+        }else{
+            $device->user_id = null;
+        }
+        $device->save();
+        return redirect('/devices')->with('status','Data berhasil diubah');
     }
 
     /**
@@ -79,6 +105,8 @@ class DeviceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $device = Device::find($id);
+        $device->delete;
+        return redirect('/devices')->with('Data berhasil dihapus');
     }
 }
