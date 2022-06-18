@@ -20,9 +20,9 @@
             </div>
         </div>
         <div class="card-body">
-            @if(session('status'))
+            @if (session('status'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{session('status')}}
+                    {{ session('status') }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -51,19 +51,20 @@
                                 <td>{{ $item->user->name ?? 'Belum Ada Pengguna' }}</td>
                                 <td>
                                     <div class="d-flex flex-row justify-content-center">
-                                            <a href="{{ Request::url() . '/' . $item->id . '/edit' }}"
-                                                class="btn btn-sm btn-success mx-2">
-                                                <i class="fa fa-edit"></i>
-                                                <span class="text">Edit</span>
-                                            </a>
-                                            <form action="{{ Request::url() . '/' . $item->id }}" method="post" onclick="return confirm('Are you sure?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-danger mx-2">
-                                                    <i class="fa fa-trash"></i>
-                                                    <span class="text">Delete</span>
-                                                </button>
-                                            </form>
+                                        <a href="{{ Request::url() . '/' . $item->id . '/edit' }}"
+                                            class="btn btn-sm btn-success mx-2">
+                                            <i class="fa fa-edit"></i>
+                                            <span class="text">Edit</span>
+                                        </a>
+                                        <form action="{{ Request::url() . '/' . $item->id }}" method="post"
+                                            onclick="return confirm('Are you sure?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger mx-2">
+                                                <i class="fa fa-trash"></i>
+                                                <span class="text">Delete</span>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
