@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LampController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,13 +23,11 @@ Route::post('/post-login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 
 Route::group(['middleware'=>['auth']], function(){
-    Route::get('/',function(){
-        return view('pages.dashboard.index');
-    })->name('dashboard');
+    Route::get('/',[DashboardController::class,'index'])->name('dashboard');
+    Route::post('/',[DashboardController::class,'addDevice']);
+    Route::get('/kontrol-lampu', [LampController::class,'index']);
+    Route::post('/kontrol-lampu', [LampController::class,'addDevice']);
     Route::resource('users', UserController::class);
     Route::resource('devices', DeviceController::class);
 
-    Route::get('/kontrol-lampu', function () {
-        return view('pages.controls.lampu');
-    });
 });

@@ -2,22 +2,23 @@
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
 
-var list = ["11.00","12.00","13.00","14.00","15.00","16.00"];
-// get time
-// var today
-// var time
-// async function insertLabels(){
-//     while(true){
-//         today = new Date()
-//         time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
-//         if(today.getSeconds() % 15 === 0){
-//             list.push(time)
-//         }
-//         await timer(1000)
-//     }
-// }
-// function timer(ms) { return new Promise(res => setTimeout(res, ms)); }
-// insertLabels()
+var list = ["11.00", "12.00", "13.00", "14.00", "15.00", "16.00"];
+
+setInterval(showTime, 1000);
+function showTime() {
+    let time = new Date();
+    let hour = time.getHours();
+    hour = hour < 10 ? "0" + hour : hour;
+
+    list[0] = hour-5 + ':00'
+    list[1] = hour-4 + ':00'
+    list[2] = hour-3 + ':00'
+    list[3] = hour-2 + ':00'
+    list[4] = hour-1 + ':00'
+    list[5] = hour + ':00'
+}
+showTime();
+
 // Area Chart Example
 var ctx = document.getElementById("kondisiSuhuChart");
 var myLineChart = new Chart(ctx, {
@@ -37,7 +38,7 @@ var myLineChart = new Chart(ctx, {
             pointHoverBorderColor: "rgba(78, 115, 223, 1)",
             pointHitRadius: 10,
             pointBorderWidth: 2,
-            data: [24,26,28,30,32,34,36,38,40],
+            data: [24, 26, 28, 30, 32, 34],
         }],
     },
     options: {
