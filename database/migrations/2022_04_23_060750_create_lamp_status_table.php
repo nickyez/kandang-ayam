@@ -19,8 +19,8 @@ class CreateLampStatusTable extends Migration
             $table->boolean('mode');
             $table->integer('suhu_nyala')->nullable();
             $table->integer('suhu_mati')->nullable();
-            $table->timestamp('time_on')->nullable();
-            $table->timestamp('time_off')->nullable();
+            $table->time('time_on')->nullable();
+            $table->time('time_off')->nullable();
             $table->foreign('id')->references('id')->on('devices');
         });
     }
