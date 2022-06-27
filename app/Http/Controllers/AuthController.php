@@ -21,7 +21,7 @@ class AuthController extends Controller
             }
             return redirect('/');
         }
-        return route('login');
+        return redirect()->route('login')->with('status','Username dan Password salah');
     }
 
     public function logout(){
