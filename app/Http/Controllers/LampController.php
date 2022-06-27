@@ -13,7 +13,7 @@ class LampController extends Controller
     {
         $userId = Auth::user()->id;
         $devices = Device::where('user_id',$userId)->get();
-
+        $request->session()->put('device', $request->d);
         if(!empty($request->d)){
             $findDevice = Device::find($request->d);
             $getLastLampStatus= DB::table('lamp_status')->where('id',$request->d)->first();
@@ -36,8 +36,22 @@ class LampController extends Controller
         return redirect('/kontrol-lampu')->with('message',"Device telah ditambahkan");
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request)
     {
-        $lamp = DB::table('lamp_status');
+        $lamp = DB::table('lamp_status')->where('id',session()->get('device'));
+        if($request->mode == 0){
+            $lamp->update([
+                'mode'=>$request->mode,
+                'suhu_nyala'=>$request->suhu_nyala,
+                'suhu_mati'=>$request->suhu_mati,
+            ]);
+        }else{
+            $lamp->update([
+                'mode'=>$request->mode,
+                'time_on'=>$request->time_on,
+                'time_off'=>$request->time_off,
+            ]);
+        }
+        return redirect('/kontrol-lampu?d='.session()->get('device'))->with('status','Mode Lampu telah diupdate');
     }
 }
