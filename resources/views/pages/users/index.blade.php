@@ -38,30 +38,23 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tfoot>
-                        <tr>
-                            <th>Nama</th>
-                            <th>Email</th>
-                            <th>Foto</th>
-                            <th>action</th>
-                        </tr>
-                    </tfoot>
                     <tbody>
                         @foreach ($users as $user)
                         <tr>
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
-                            <td><img src="{{asset('profile/'.$user->photos_url)}}" alt="{{$user->name}}" class="img-fluid"></td>
-                            <td>
+                            <td class="w-25"><img src="{{asset($user->photos_url)}}" alt="{{$user->name}}" class="img-fluid"></td>
+                            <td class="w-25">
                                 <div class="row">
                                     <div class="col text-center">
-                                        <a href="#" class="btn btn-sm btn-success">
+                                        <a href="{{Request::url() . '/' .$user->id.'/edit'}}" class="btn btn-sm btn-success">
                                             <i class="fa fa-edit"></i>
                                             <span class="text">Edit</span>
                                         </a>
                                     </div>
+                                    @if($user->is_admin == 0)
                                     <div class="col">
-                                        <form action="#" method="post">
+                                        <form action="{{Request::url() . '/' .$user->id}}" method="post">
                                             @method('delete')
                                             @csrf
                                             <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
@@ -70,6 +63,7 @@
                                             </button>
                                         </form>
                                     </div>
+                                    @endif
                                 </div>
                                 
                             </td>

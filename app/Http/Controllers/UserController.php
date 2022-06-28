@@ -37,12 +37,23 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'email'=>'required|email',
+            'username'=>'required|max:8|alpha_num',
+        ]);
         $user = new User;
-        $user->photos_url = $request->file('photo')->store('profile','public');
+        if(!empty($request->photo)){
+            $user->photos_url = $request->file('photo')->store('profile','public');
+        }else{
+            $user->photos_url = "profile/undraw_profile.svg";
+        }
         $user->name = $request->name;
         $user->username = $request->username;
         $user->email = $request->email;
+        $user->is_admin = 0;
         $user->password = Hash::make($request->password);
+        $user->save();
+        return redirect('/users')->with('status','User berhasil ditambahkan');
     }
 
     /**
@@ -64,7 +75,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        return view('pages.users.edit');
+        $user = User::find($id);
+        return view('pages.users.edit',compact('user'));
     }
 
     /**
@@ -77,14 +89,18 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
-        $user->photos_url = $request->photo ? $request->photo : $user->photos_url;
+        if(!empty($request->photo)){
+            $user->photos_url = $request->file('photo')->store('profile','public');
+        }
         $user->name = $request->name ? $request->name : $user->name;
         $user->username = $request->username ? $request->username : $user->username;
         $user->email = $request->email ? $request->email : $user->email;
-        $user->password = Hash::make($request->password);
+        if(!empty($request->password)){
+            $user->password = Hash::make($request->password);
+        }
 
         $user->save();
-        return redirect('users')->with('status', 'user berhasil di edit!');
+        return redirect('users')->with('status', 'User berhasil diubah');
     }
 
     /**
@@ -97,7 +113,9 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $filename = $user->photos_url;
-        File::delete($filename);
+        if($filename != "profile/undraw_profile.svg"){
+            File::delete(public_path($filename));
+        }
         $user->delete();
         return redirect('/users')->with('status','User berhasil di hapus!');
     }
