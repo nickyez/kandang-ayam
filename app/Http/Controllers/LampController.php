@@ -30,6 +30,8 @@ class LampController extends Controller
             return redirect('/kontrol-lampu?d='.session()->get('device'))->with('message',"Device tidak ditemukan");
         }elseif($find->user_id == Auth::user()->id){
             return redirect('/kontrol-lampu?d='.session()->get('device'))->with('message',"Device sudah ada");
+        }elseif($find->user_id != null && $find->user_id != Auth::user()->id){
+            return redirect('/kontrol-lampu?d='.session()->get('device'))->with('message',"Device sudah digunakan");
         }
         $find->user_id = Auth::user()->id;
         $find->save();

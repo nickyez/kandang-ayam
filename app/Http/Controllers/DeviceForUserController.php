@@ -46,6 +46,8 @@ class DeviceForUserController extends Controller
             return redirect('/device/create')->with('status',"Device tidak ditemukan");
         }elseif($find->user_id == Auth::user()->id){
             return redirect('/device/create')->with('status',"Device sudah ada");
+        }elseif($find->user_id != null && $find->user_id != Auth::user()->id){
+            return redirect('/device/create')->with('status',"Device sudah digunakan");
         }
         $find->user_id = Auth::user()->id;
         $find->save();
