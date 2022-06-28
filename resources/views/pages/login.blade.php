@@ -25,7 +25,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <img src="{{ asset('images/undraw_remotely_2j6y.svg') }}" alt="Image" class="img-fluid">
+                    <img src="{{ asset('images/undraw_farm.svg') }}" alt="Image" class="img-fluid">
                 </div>
                 <div class="col-md-6 contents">
                     <div class="row justify-content-center">
@@ -54,7 +54,7 @@
                                     <label for="password">Password</label>
                                     <input type="password" class="form-control" name="password" id="password" required>
                                 </div>
-                                <input type="submit" value="Log In" class="btn btn-block btn-primary">
+                                <input type="submit" value="Log In" class="btn btn-block btn-warning">
                             </form>
                         </div>
                     </div>
