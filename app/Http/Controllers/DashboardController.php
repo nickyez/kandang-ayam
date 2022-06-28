@@ -18,7 +18,7 @@ class DashboardController extends Controller
         // Show Data
         if(!empty($request->d)){
             $findDevice = Device::find($request->d);
-            $getLastTempData= DB::table('temp_data')->where('id',$request->d)->orderBy('waktu')->first();
+            $getLastTempData= DB::table('temp_data')->where('id',$request->d)->orderBy('waktu','desc')->get();
             $getLastLampStatus= DB::table('lamp_status')->where('id',$request->d)->first();
             return view('pages.dashboard.index', compact('devices','getLastTempData','getLastLampStatus'));
         }
@@ -34,6 +34,8 @@ class DashboardController extends Controller
             return redirect('/')->with('message',"Device tidak ditemukan");
         }elseif($find->user_id == Auth::user()->id){
             return redirect('/')->with('message',"Device sudah ada");
+        }elseif($find->user_id != null && $find->user_id != Auth::user()->id){
+            return redirect('/')->with('message',"Device sudah digunakan");
         }
         $find->user_id = Auth::user()->id;
         $find->save();

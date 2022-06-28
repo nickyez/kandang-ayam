@@ -106,7 +106,7 @@
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Suhu Kandang</div>
                                 @if (isset($getLastTempData))
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getLastTempData->temp }}°C
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getLastTempData[0]->temp }}°C
                                     </div>
                                 @else
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">N/A</div>
@@ -128,7 +128,7 @@
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                     Kelembapan</div>
                                 @if (isset($getLastTempData))
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getLastTempData->humi }}%
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getLastTempData[0]->humi }}%
                                     </div>
                                 @else
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">N/A</div>
@@ -236,5 +236,169 @@
 @endpush
 
 @push('data-script')
-    <script src="{{ asset('js/chart/kondisi_suhu.js') }}"></script>
+    @if(isset($getLastTempData))
+    <?php
+        $label = array();
+        $time = \Carbon\Carbon::now();
+        $hour = $time->hour;
+        $cond = array();
+        $cond[] = $hour - 5;
+        $cond[] = $hour - 4;
+        $cond[] = $hour - 3;
+        $cond[] = $hour - 2;
+        $cond[] = $hour - 1;
+        $cond[] = $hour;
+        ($hour < 10) ? "0" . (string) $hour : $hour;
+        $label[] = $hour - 5 . ":00"; 
+        $label[] = $hour - 4 . ":00"; 
+        $label[] = $hour - 3 . ":00"; 
+        $label[] = $hour - 2 . ":00"; 
+        $label[] = $hour - 1 . ":00"; 
+        $label[] = $hour . ":00"; 
+        $data = array();
+        for ($i = $getLastTempData->count() - 1; $i >= 0 ; $i--){
+            if($cond[0] == date('G',strtotime($getLastTempData[$i]->waktu))){
+                $data[0] = $getLastTempData[$i]->temp;
+            }else{
+                if(empty($data[0])){
+                    $data[0] = 0;
+                }
+            }
+            if($cond[1] == date('G',strtotime($getLastTempData[$i]->waktu))){
+                $data[1] = $getLastTempData[$i]->temp;
+            }else{
+                if(empty($data[1])){
+                    $data[1] = 0;
+                }
+            }
+            if($cond[2] == date('G',strtotime($getLastTempData[$i]->waktu))){
+                $data[2] = $getLastTempData[$i]->temp;
+            }else{
+                if(empty($data[2])){
+                    $data[2] = 0;
+                }
+                
+            }
+            if($cond[3] == date('G',strtotime($getLastTempData[$i]->waktu))){
+                $data[3] = $getLastTempData[$i]->temp;
+            }else{
+                if(empty($data[3])){
+                    $data[3] = 0;
+                }
+            }
+            if($cond[4] == date('G',strtotime($getLastTempData[$i]->waktu))){
+                $data[4] = $getLastTempData[$i]->temp;
+            }else{
+                if(empty($data[4])){
+                    $data[4] = 0;
+                }
+            }
+            if($cond[5] == date('G',strtotime($getLastTempData[$i]->waktu))){
+                $data[5] = $getLastTempData[$i]->temp;
+            }else{
+                if(empty($data[5])){
+                    $data[5] = 0;
+                }
+            }
+        }
+    ?>
+    <script>
+        // Set new default font family and font color to mimic Bootstrap's default styling
+        Chart.defaults.global.defaultFontFamily = 'Nunito',
+            '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+        Chart.defaults.global.defaultFontColor = '#858796';
+
+        var list = ['<?php echo $label[0]; ?>','<?php echo $label[1]; ?>','<?php echo $label[2]; ?>','<?php echo $label[3]; ?>','<?php echo $label[4]; ?>','<?php echo $label[5]; ?>'];
+        var data = [<?php foreach($data as $d){echo $d . ',';}?>];
+        // Area Chart Example
+        var ctx = document.getElementById("kondisiSuhuChart");
+        var myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: list,
+                datasets: [{
+                    label: "Suhu",
+                    lineTension: 0.3,
+                    backgroundColor: "rgba(78, 115, 223, 0.05)",
+                    borderColor: "rgba(78, 115, 223, 1)",
+                    pointRadius: 3,
+                    pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                    pointBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHoverRadius: 3,
+                    pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                    pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHitRadius: 10,
+                    pointBorderWidth: 2,
+                    data: data,
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 25,
+                        top: 25,
+                        bottom: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        time: {
+                            unit: 'date'
+                        },
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            maxTicksLimit: 7
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            maxTicksLimit: 5,
+                            padding: 10,
+                            // Include a dollar sign in the ticks
+                            callback: function(value, index, values) {
+                                return value + '°C';
+                            }
+                        },
+                        gridLines: {
+                            color: "rgb(234, 236, 244)",
+                            zeroLineColor: "rgb(234, 236, 244)",
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }],
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    titleMarginBottom: 10,
+                    titleFontColor: '#6e707e',
+                    titleFontSize: 14,
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    intersect: false,
+                    mode: 'index',
+                    caretPadding: 10,
+                    callbacks: {
+                        label: function(tooltipItem, chart) {
+                            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                            return datasetLabel + ':' + tooltipItem.yLabel + '°C';
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    @endif
 @endpush
