@@ -236,6 +236,7 @@
             location.reload();
         };
     </script>
+    @if(isset($getLastLampStatus))
     <script>
         $(document).ready(function() {
             $('input[name=mode]').on('change', function() {
@@ -309,4 +310,5 @@
             });
         });
     </script>
+    @endif
 @endpush
