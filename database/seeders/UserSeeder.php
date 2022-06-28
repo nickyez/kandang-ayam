@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
                     'email' => 'admin'.'@gmail.com',
                     'password' => Hash::make('admin'),
                     'is_admin'=> 1,
-                    'photos_url'=> "undraw_profile.svg"
+                    'photos_url'=> "profile/undraw_profile.svg"
                 ],
                 [
                     'name' => 'User',
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
                     'email' => 'user'.'@gmail.com',
                     'password' => Hash::make('user'),
                     'is_admin'=> 0,
-                    'photos_url'=> "undraw_profile.svg"
+                    'photos_url'=> "profile/undraw_profile.svg"
                 ]
             ]
         );
