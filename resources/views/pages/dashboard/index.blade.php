@@ -106,8 +106,13 @@
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Suhu Kandang</div>
                                 @if (isset($getLastTempData))
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getLastTempData[0]->temp }}°C
-                                    </div>
+                                    @if ($getLastTempData != [])
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{ $getLastTempData[0]->temp }}°C
+                                        </div>
+                                    @else
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">N/A</div>
+                                    @endif
                                 @else
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">N/A</div>
                                 @endif
@@ -128,8 +133,13 @@
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                     Kelembapan</div>
                                 @if (isset($getLastTempData))
-                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $getLastTempData[0]->humi }}%
-                                    </div>
+                                    @if ($getLastTempData != [])
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                            {{ $getLastTempData[0]->humi }}%
+                                        </div>
+                                    @else
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">N/A</div>
+                                    @endif
                                 @else
                                     <div class="h5 mb-0 font-weight-bold text-gray-800">N/A</div>
                                 @endif
@@ -242,6 +252,26 @@
         $label[] = $hour - 1 . ':00';
         $label[] = $hour . ':00';
         $data = [];
+        if ($getLastTempData->count() == 0) {
+            if (empty($data[0])) {
+                $data[0] = 0;
+            }
+            if (empty($data[1])) {
+                $data[1] = 0;
+            }
+            if (empty($data[2])) {
+                $data[2] = 0;
+            }
+            if (empty($data[3])) {
+                $data[3] = 0;
+            }
+            if (empty($data[4])) {
+                $data[4] = 0;
+            }
+            if (empty($data[5])) {
+                $data[5] = 0;
+            }
+        }
         for ($i = $getLastTempData->count() - 1; $i >= 0; $i--) {
             $isSameDay = date_format($time, 'Y-m-d') == date('Y-m-d', strtotime($getLastTempData[$i]->waktu));
             if ($isSameDay) {
