@@ -106,7 +106,7 @@
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                     Suhu Kandang</div>
                                 @if (isset($getLastTempData))
-                                    @if ($getLastTempData != [])
+                                    @if ($getLastTempData->count() != 0)
                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
                                             {{ $getLastTempData[0]->temp }}°C
                                         </div>
@@ -133,7 +133,7 @@
                                 <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                     Kelembapan</div>
                                 @if (isset($getLastTempData))
-                                    @if ($getLastTempData != [])
+                                    @if ($getLastTempData->count() != 0)
                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
                                             {{ $getLastTempData[0]->humi }}%
                                         </div>
