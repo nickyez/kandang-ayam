@@ -25,21 +25,21 @@ class APIController extends Controller
                 'message'=>"bad request"
             ],400);
         }
-        if (is_int($request->temp) && is_int($request->humi)){
+        if (is_numeric($request->temp) && is_numeric($request->humi)){
             $query->insert([
-                'id'=>$id,
-                'temp'=>$request->temp,
-                'humi'=>$request->humi,
-            ]);
-            return response([
-                'status'=>"success",
-                'message'=>"data created"
-            ],201);
-        }
+            'id'=>$id,
+            'temp'=>(int) $request->temp,
+            'humi'=>(int) $request->humi,
+        ]);
         return response([
-            'status'=>"error",
-            'message'=>"Data is not integer"
-        ],400);
+            'status'=>"success",
+            'message'=>"data created"
+        ],201);
+        }
+            return response([
+                'status'=>"error",
+                'message'=>"Data is not integer"
+            ],400);
     }
 
     public function getLampStatus($id)
